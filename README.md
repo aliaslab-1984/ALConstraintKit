@@ -45,7 +45,7 @@ This framework provides some useful tools and initializers to make the process o
 One of this tools are the custom UIEdgeInsets initializers, that lets you type only the edges that you want to specify instead of typing all of them.
 
 ``` swift
-let insets = UIEdgeInsets(axis: .vertical(top: 10, bottom 10))
+let insets = UIEdgeInsets([.top, .bottom], constant: 10)
 
 let squaredInsets = UIEdgeInsets(all: 10)
 ```
