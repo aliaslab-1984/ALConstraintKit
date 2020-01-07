@@ -4,12 +4,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "Example swift package",
+    name: "ALConstraintKit",
+    platforms: [.iOS(.v9)],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
-            name: "Example swift package",
-            targets: ["Example swift package"]),
+            name: "ALConstraintKit",
+            targets: ["ALConstraintKit"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -18,11 +19,6 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
-        .target(
-            name: "Example swift package",
-            dependencies: []),
-        .testTarget(
-            name: "Example swift packageTests",
-            dependencies: ["Example swift package"]),
+        .target(name: "ALConstraintKit", dependencies: []),
     ]
 )
