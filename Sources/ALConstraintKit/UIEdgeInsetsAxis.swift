@@ -7,7 +7,7 @@
 //
 
 #if canImport(UIKit)
-
+import UIKit
 public extension UIEdgeInsets {
     /// Enumeration to describe both the Horizontal and the Vertical axis.
     enum Axis {

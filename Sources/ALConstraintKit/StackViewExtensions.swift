@@ -8,7 +8,7 @@
 
 import Foundation
 #if canImport(UIKit)
-
+import UIKit
 public extension UIStackView {
     /// Utility method that helps to remove all the arranged subviews inside a UIStackView.
     func safelyRemoveArrangedSubviews() {

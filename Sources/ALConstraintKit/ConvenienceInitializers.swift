@@ -8,7 +8,7 @@
 
 import Foundation
 #if canImport(UIKit)
-
+import UIKit
 public extension UIView {
     /// Adds a series of suibviews to this view. (Note: The order in which the subviews are added will be used for the z axis)
     /// - Parameter subviews: The list of subviews that will be added.

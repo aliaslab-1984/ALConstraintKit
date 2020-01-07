@@ -8,7 +8,7 @@
 
 import Foundation
 #if canImport(UIKit)
-
+import UIKit
 /// Helper class that handles the creation of an Horizontal or Vertical Stack of Views
 public class ALConstraintMaker {
     ///Shorter name for UIStackView

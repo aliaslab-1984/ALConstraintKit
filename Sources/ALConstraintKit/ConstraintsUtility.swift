@@ -8,7 +8,7 @@
 
 import Foundation
 #if canImport(UIKit)
-
+import UIKit
 public extension UIView {
     ///Describes the set of vertical positions in which a view can be anchored
     enum VerticalAlignment {
