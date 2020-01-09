@@ -27,13 +27,25 @@ public extension UIView {
     convenience init(cornerRadius: CGFloat,
                      backgroundColor: UIColor = .clear) {
         self.init(frame: .zero)
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = cornerRadius
+        self.translatesAutoresizingMaskIntoConstraints = false
+        guard cornerRadius != 0 else {return}
+        
+        roundCorners(cornerRadius: cornerRadius)
     }
     convenience init(tamic: Bool = false, backgroundColor: UIColor = .clear) {
         self.init(frame: .zero)
         self.translatesAutoresizingMaskIntoConstraints = tamic
         self.backgroundColor = backgroundColor
+    }
+}
+
+private extension UIView {
+    func roundCorners(cornerRadius: CGFloat) {
+        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [.allCorners], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = self.bounds
+        maskLayer.path = path.cgPath
+        self.layer.mask = maskLayer
     }
 }
 
