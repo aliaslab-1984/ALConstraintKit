@@ -52,4 +52,27 @@ public extension NSLayoutYAxisAnchor {
         return constraint
     }
 }
+
+public extension NSLayoutDimension {
+    
+    /// Applies and activates a specific constant value to this dimension.
+    /// - Parameter constant: The constant value that needs to be applied.
+    @discardableResult
+    func apply(constant: CGFloat) -> NSLayoutConstraint{
+        let constraint = self.constraint(equalToConstant: constant)
+        NSLayoutConstraint.activate([constraint])
+        return constraint
+    }
+    
+    /// Applies and activates a specific constant value to this dimension.
+    /// - Parameter dimension: The constant value that needs to be applied.
+    /// - Parameter multiplier: The ratio that needs to be applied to the reference dimension. (Default is 1)
+    @discardableResult
+    func equal(to dimension: NSLayoutDimension, multiplier: CGFloat = 1) -> NSLayoutConstraint{
+        let constraint = self.constraint(equalTo: dimension, multiplier: multiplier)
+        NSLayoutConstraint.activate([constraint])
+        return constraint
+    }
+}
+
 #endif
