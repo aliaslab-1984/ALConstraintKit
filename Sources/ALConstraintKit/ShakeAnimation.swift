@@ -24,7 +24,7 @@ public extension UIView {
     }
     
     func layerScaleAnimation(duration: CFTimeInterval, fromValue: CGFloat = 1.0, toValue: CGFloat) {
-        let timing = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        let timing = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
         let scaleAnimation: CABasicAnimation = CABasicAnimation(keyPath: "transform.scale")
 
         CATransaction.begin()
