@@ -23,7 +23,7 @@ public extension UIView {
                        forKey: "position")
     }
     
-    func layerScaleAnimation(layer: CALayer, duration: CFTimeInterval, fromValue: CGFloat = 1.0, toValue: CGFloat) {
+    func layerScaleAnimation(duration: CFTimeInterval, fromValue: CGFloat = 1.0, toValue: CGFloat) {
         let timing = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         let scaleAnimation: CABasicAnimation = CABasicAnimation(keyPath: "transform.scale")
 
@@ -33,7 +33,7 @@ public extension UIView {
         scaleAnimation.fromValue = fromValue
         scaleAnimation.toValue = toValue
         scaleAnimation.autoreverses = true
-        layer.add(scaleAnimation, forKey: "scale")
+        self.layer.add(scaleAnimation, forKey: "scale")
         CATransaction.commit()
     }
 }
