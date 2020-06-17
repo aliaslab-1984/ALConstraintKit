@@ -78,7 +78,7 @@ public extension UIView {
             self.bottomAnchor.constraint(equalTo: superView.layoutMarginsGuide.bottomAnchor,
                                          constant: -plusPadding.bottom),
             self.leadingAnchor.constraint(equalTo: superView.layoutMarginsGuide.leadingAnchor,
-                                          constant: plusPadding.layoutMarginsGuide.left),
+                                          constant: plusPadding.left),
             self.trailingAnchor.constraint(equalTo: superView.layoutMarginsGuide.trailingAnchor,
                                            constant: -plusPadding.right)
         ]
