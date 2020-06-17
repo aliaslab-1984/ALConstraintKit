@@ -74,13 +74,13 @@ public extension UIView {
         
         constraints = [
             self.topAnchor.constraint(equalTo: superView.layoutMarginsGuide.topAnchor,
-                                      constant: padding.top),
+                                      constant: plusPadding.top),
             self.bottomAnchor.constraint(equalTo: superView.layoutMarginsGuide.bottomAnchor,
-                                         constant: -padding.bottom),
+                                         constant: -plusPadding.bottom),
             self.leadingAnchor.constraint(equalTo: superView.layoutMarginsGuide.leadingAnchor,
-                                          constant: padding.layoutMarginsGuide.left),
+                                          constant: plusPadding.layoutMarginsGuide.left),
             self.trailingAnchor.constraint(equalTo: superView.layoutMarginsGuide.trailingAnchor,
-                                           constant: -padding.right)
+                                           constant: -plusPadding.right)
         ]
         
         NSLayoutConstraint.activate(constraints)
@@ -492,7 +492,7 @@ public extension UIView {
 public extension UIView {
     
     func deactivateAllConstraints() {
-        NSLayoutConstraint.deactivate([self.constraints])
+        NSLayoutConstraint.deactivate(self.constraints)
     }
     
 }
