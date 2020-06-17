@@ -9,6 +9,7 @@
 import Foundation
 #if canImport(UIKit)
 import UIKit
+
 public extension UIView {
     ///Describes the set of vertical positions in which a view can be anchored
     enum VerticalAlignment {
@@ -62,6 +63,26 @@ public extension UIView {
                                            constant: -padding.right)
             ]
         }
+        NSLayoutConstraint.activate(constraints)
+    }
+    /// Utility method that fills the superview with this view, allgining the child view using layoutMargins guide.
+    /// - Parameter padding: If needed this paraeter can apply some additional spacing between the parent view and the view itself.
+    func fillSuperViewWithLayoutGuide(plusPadding: UIEdgeInsets = .zero) {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        guard let superView = superview else {return}
+        var constraints: [NSLayoutConstraint] = []
+        
+        constraints = [
+            self.topAnchor.constraint(equalTo: superView.layoutMarginsGuide.topAnchor,
+                                      constant: padding.top),
+            self.bottomAnchor.constraint(equalTo: superView.layoutMarginsGuide.bottomAnchor,
+                                         constant: -padding.bottom),
+            self.leadingAnchor.constraint(equalTo: superView.layoutMarginsGuide.leadingAnchor,
+                                          constant: padding.layoutMarginsGuide.left),
+            self.trailingAnchor.constraint(equalTo: superView.layoutMarginsGuide.trailingAnchor,
+                                           constant: -padding.right)
+        ]
+        
         NSLayoutConstraint.activate(constraints)
     }
     /// Describes the set of dimensions of a 2D object.
@@ -450,6 +471,7 @@ public extension UIView {
         NSLayoutConstraint.activate(constraints)
     }
 }
+
 public extension UIView {
     /// Helper function that applies the same center coordinates from a target view
     /// - Parameters:
@@ -465,6 +487,14 @@ public extension UIView {
         ]
         NSLayoutConstraint.activate(constraints)
     }
+}
+
+public extension UIView {
+    
+    func deactivateAllConstraints() {
+        NSLayoutConstraint.deactivate([self.constraints])
+    }
+    
 }
 
 #endif

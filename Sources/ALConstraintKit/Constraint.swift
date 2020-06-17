@@ -15,7 +15,8 @@ public extension NSLayoutXAxisAnchor {
     func anchor(to match: NSLayoutXAxisAnchor, constant: CGFloat = 0) -> NSLayoutConstraint {
         let constraint: NSLayoutConstraint
 
-        constraint = self.constraint(equalTo: match, constant: constant)
+        constraint = self.constraint(equalTo: match,
+                                     constant: constant)
         NSLayoutConstraint.activate([constraint])
         return constraint
     }
@@ -24,7 +25,8 @@ public extension NSLayoutXAxisAnchor {
     func anchor(lessThanOrEqualto matchingAnchor: NSLayoutXAxisAnchor,
                         constant: CGFloat = 0) -> NSLayoutConstraint {
         let constraint: NSLayoutConstraint
-        constraint = self.constraint(lessThanOrEqualTo: matchingAnchor, constant: constant)
+        constraint = self.constraint(lessThanOrEqualTo: matchingAnchor,
+                                     constant: constant)
         NSLayoutConstraint.activate([constraint])
         return constraint
     }
@@ -32,7 +34,8 @@ public extension NSLayoutXAxisAnchor {
     @discardableResult
     func anchor(greaterThanOrEqualTo matchingAnchor: NSLayoutXAxisAnchor, constant: CGFloat = 0.0) -> NSLayoutConstraint {
         let constraint: NSLayoutConstraint
-        constraint = self.constraint(greaterThanOrEqualTo: matchingAnchor, constant: constant)
+        constraint = self.constraint(greaterThanOrEqualTo: matchingAnchor,
+                                     constant: constant)
         NSLayoutConstraint.activate([constraint])
         return constraint
     }
@@ -52,7 +55,8 @@ public extension NSLayoutYAxisAnchor {
     func anchor(lessThanOrEqualto matchingAnchor: NSLayoutYAxisAnchor,
                         constant: CGFloat = 0) -> NSLayoutConstraint {
         let constraint: NSLayoutConstraint
-        constraint = self.constraint(lessThanOrEqualTo: matchingAnchor, constant: constant)
+        constraint = self.constraint(lessThanOrEqualTo: matchingAnchor,
+                                     constant: constant)
         NSLayoutConstraint.activate([constraint])
         return constraint
     }
