@@ -417,26 +417,52 @@ public extension UIView {
     ///   - padding: The amount of spacing to apply from the bvase constraints (only the horizontal amount works).
     func copyAndApplyHorizontalConstraint(from targetView: UIView,
                                           options: HorizontalOptions = .all,
-                                          padding: UIEdgeInsets = .zero) {
+                                          padding: UIEdgeInsets = .zero,
+                                          safeArea: Bool = false) {
         var constraints: [NSLayoutConstraint]
         switch options {
         case .all:
-            constraints = [
-                self.leadingAnchor.constraint(equalTo: targetView.leadingAnchor,
-                                              constant: padding.left),
-                self.trailingAnchor.constraint(equalTo: targetView.trailingAnchor,
-                                               constant: -padding.right)
-            ]
+            if #available(iOS 11.0, *) {
+                constraints = safeArea ? [
+                    self.leadingAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.leadingAnchor,
+                                                  constant: padding.left),
+                    self.trailingAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.trailingAnchor,
+                                                   constant: -padding.right)
+                ] : [self.leadingAnchor.constraint(equalTo: targetView.leadingAnchor,
+                                                   constant: padding.left),
+                     self.trailingAnchor.constraint(equalTo: targetView.trailingAnchor,
+                                                    constant: -padding.right)]
+            } else {
+                constraints = [self.leadingAnchor.constraint(equalTo: targetView.leadingAnchor,
+                                                             constant: padding.left),
+                               self.trailingAnchor.constraint(equalTo: targetView.trailingAnchor,
+                                                              constant: -padding.right)]
+            }
+            
         case .left:
-            constraints = [
-                self.leadingAnchor.constraint(equalTo: targetView.leadingAnchor,
-                                              constant: padding.left)
-            ]
+            if #available(iOS 11.0, *) {
+                constraints = safeArea ? [
+                    self.leadingAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.leadingAnchor,
+                                                  constant: padding.left)
+                ] : [self.leadingAnchor.constraint(equalTo: targetView.leadingAnchor,
+                                                   constant: padding.left)]
+                
+            } else {
+                constraints = [self.leadingAnchor.constraint(equalTo: targetView.leadingAnchor, constant: padding.left)]
+            }
         case .right:
-            constraints = [
-                self.trailingAnchor.constraint(equalTo: targetView.trailingAnchor,
-                                               constant: -padding.right)
-            ]
+            if #available(iOS 11.0, *) {
+                constraints = safeArea ? [
+                    self.trailingAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.trailingAnchor,
+                                                   constant: -padding.right)
+                ] : [self.trailingAnchor.constraint(equalTo: targetView.trailingAnchor,
+                                                    constant: -padding.right)]
+            } else {
+                constraints = [
+                    self.trailingAnchor.constraint(equalTo: targetView.trailingAnchor,
+                                                   constant: -padding.right)
+                ]
+            }
         }
         NSLayoutConstraint.activate(constraints)
     }
@@ -447,26 +473,56 @@ public extension UIView {
     ///   - padding: The amount of spacing to apply from the bvase constraints (only the horizontal amount works).
     func copyAndApplyVerticalConstraint(from targetView: UIView,
                                         options: VerticalOptions = .all,
-                                        padding: UIEdgeInsets = .zero) {
+                                        padding: UIEdgeInsets = .zero,
+                                        safeArea: Bool = false) {
         var constraints: [NSLayoutConstraint]
         switch options {
         case .all:
-            constraints = [
-                self.topAnchor.constraint(equalTo: targetView.topAnchor,
-                                          constant: padding.top),
-                self.bottomAnchor.constraint(equalTo: targetView.bottomAnchor,
-                                             constant: -padding.bottom)
-            ]
+            if #available(iOS 11.0, *) {
+                constraints = safeArea ? [
+                    self.topAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.topAnchor,
+                                              constant: padding.top),
+                    self.bottomAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.bottomAnchor,
+                    constant: -padding.bottom)
+                    ] : [self.topAnchor.constraint(equalTo: targetView.topAnchor,
+                                                   constant: padding.top),
+                         self.bottomAnchor.constraint(equalTo: targetView.bottomAnchor,
+                         constant: -padding.bottom)]
+            } else {
+                constraints = [
+                    self.topAnchor.constraint(equalTo: targetView.topAnchor,
+                                              constant: padding.top),
+                    self.bottomAnchor.constraint(equalTo: targetView.bottomAnchor,
+                                                 constant: -padding.bottom)
+                ]
+            }
+            
         case .top:
-            constraints = [
-                self.topAnchor.constraint(equalTo: targetView.topAnchor,
+            if #available(iOS 11.0, *) {
+            constraints = safeArea ? [
+                self.topAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.topAnchor,
                                           constant: padding.top)
-            ]
+                ] : [self.topAnchor.constraint(equalTo: targetView.topAnchor,
+                                               constant: padding.top)]
+            } else {
+                constraints = [
+                    self.topAnchor.constraint(equalTo: targetView.topAnchor,
+                                              constant: padding.top)
+                ]
+            }
         case .bottom:
-            constraints = [
-                self.bottomAnchor.constraint(equalTo: targetView.bottomAnchor,
-                                             constant: -padding.bottom)
-            ]
+            if #available(iOS 11.0, *) {
+                constraints = safeArea ? [
+                    self.bottomAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.bottomAnchor,
+                                                 constant: -padding.bottom)
+                    ] : [self.bottomAnchor.constraint(equalTo: targetView.bottomAnchor,
+                                                      constant: -padding.bottom)]
+            } else {
+                constraints = [
+                    self.bottomAnchor.constraint(equalTo: targetView.bottomAnchor,
+                                                 constant: -padding.bottom)
+                ]
+            }
         }
         NSLayoutConstraint.activate(constraints)
     }
