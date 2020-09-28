@@ -98,42 +98,43 @@ public extension UIView {
     ///   - target: The target view that we want to caluclate the proportion of.
     func specify(dimension: Dimension,
                  multiplier: CGFloat,
-                 target: UIView,
+                 target: AnyArrangeable,
                  referredToSafeArea: Bool = false,
                  alignment: HorizontalAlignment = .center) {
         self.translatesAutoresizingMaskIntoConstraints = false
+        let targetView = target.viewToConstraint
         switch dimension {
         case .width:
             if #available(iOS 11.0, *) {
                 NSLayoutConstraint.activate([ referredToSafeArea ?
-                    self.widthAnchor.constraint(equalTo: target.safeAreaLayoutGuide.widthAnchor,
+                    self.widthAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.widthAnchor,
                                                 multiplier: multiplier) :
-                    self.widthAnchor.constraint(equalTo: target.widthAnchor,
+                    self.widthAnchor.constraint(equalTo: targetView.widthAnchor,
                                                 multiplier: multiplier)
                 ])
             } else {
             NSLayoutConstraint.activate([
-                self.widthAnchor.constraint(equalTo: target.widthAnchor,
+                self.widthAnchor.constraint(equalTo: targetView.widthAnchor,
                                             multiplier: multiplier)])
             }
-            NSLayoutConstraint.activate(applyHAlignment(superView: target,
+            NSLayoutConstraint.activate(applyHAlignment(superView: targetView,
                                                         alignment: alignment,
                                                         padding: .zero,
                                                         size: .zero))
         case .height:
             if #available(iOS 11.0, *) {
                 NSLayoutConstraint.activate([ referredToSafeArea ?
-                    self.heightAnchor.constraint(equalTo: target.safeAreaLayoutGuide.heightAnchor,
+                    self.heightAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.heightAnchor,
                                                 multiplier: multiplier) :
-                    self.heightAnchor.constraint(equalTo: target.heightAnchor,
+                    self.heightAnchor.constraint(equalTo: targetView.heightAnchor,
                                                  multiplier: multiplier)
                 ])
             } else {
             NSLayoutConstraint.activate([
-                self.heightAnchor.constraint(equalTo: target.heightAnchor,
+                self.heightAnchor.constraint(equalTo: targetView.heightAnchor,
                                             multiplier: multiplier)])
             }
-            NSLayoutConstraint.activate(applyHAlignment(superView: target,
+            NSLayoutConstraint.activate(applyHAlignment(superView: targetView,
                                                         alignment: alignment,
                                                         padding: .zero,
                                                         size: .zero)) 
@@ -359,33 +360,34 @@ public extension UIView {
     ///   - padding: The amunt of distance betwen the two views.
     func placed(at mutualPosition: MutualPosition,
                 horizontalAlignemnt: HorizontalAlignment = .center,
-                of view: UIView,
+                of view: AnyArrangeable,
                 padding: UIEdgeInsets = .zero) {
+        let targetView = view.viewToConstraint
         self.translatesAutoresizingMaskIntoConstraints = false
         var constraints: [NSLayoutConstraint] = []
         switch mutualPosition {
         case .top:
-            constraints.append(self.bottomAnchor.constraint(equalTo: view.topAnchor,
+            constraints.append(self.bottomAnchor.constraint(equalTo: targetView.topAnchor,
                                                             constant: -padding.top))
         case .bottom:
-            constraints.append(self.topAnchor.constraint(equalTo: view.bottomAnchor,
+            constraints.append(self.topAnchor.constraint(equalTo: targetView.bottomAnchor,
                                                          constant: padding.bottom))
         case .left:
-            constraints.append(self.trailingAnchor.constraint(equalTo: view.leadingAnchor,
+            constraints.append(self.trailingAnchor.constraint(equalTo: targetView.leadingAnchor,
                                                               constant: -padding.left))
-            constraints.append(self.centerYAnchor.constraint(equalTo: view.centerYAnchor))
+            constraints.append(self.centerYAnchor.constraint(equalTo: targetView.centerYAnchor))
         case .right:
-            constraints.append(self.leadingAnchor.constraint(equalTo: view.trailingAnchor,
+            constraints.append(self.leadingAnchor.constraint(equalTo: targetView.trailingAnchor,
                                                              constant: padding.right))
-            constraints.append(self.centerYAnchor.constraint(equalTo: view.centerYAnchor))
+            constraints.append(self.centerYAnchor.constraint(equalTo: targetView.centerYAnchor))
         case .center:
-            constraints.append(self.centerXAnchor.constraint(equalTo: view.centerXAnchor,
+            constraints.append(self.centerXAnchor.constraint(equalTo: targetView.centerXAnchor,
                                                              constant: padding.right))
-            constraints.append(self.centerYAnchor.constraint(equalTo: view.centerYAnchor,
+            constraints.append(self.centerYAnchor.constraint(equalTo: targetView.centerYAnchor,
                                                              constant: padding.top))
         }
         if horizontalAlignemnt == .center {
-        constraints.append(self.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        constraints.append(self.centerXAnchor.constraint(equalTo: targetView.centerXAnchor))
         }
         NSLayoutConstraint.activate(constraints)
     }
@@ -410,6 +412,65 @@ public extension UIView {
         /// Copy all the vertical constraints. (**default option**)
         case all
     }
+    /// Function that given a source model view copies all, or some of the horizontal constraints
+    /// - Parameters:
+    ///   - targetView: The view from where we copy the constraints
+    ///   - options: The possible options to choose from when copying the constraints.
+    ///   - padding: The amount of spacing to apply from the bvase constraints (only the horizontal amount works).
+    func mirrorHConstraints(from target: AnyArrangeable,
+                       options: HorizontalOptions = .all,
+                       padding: UIEdgeInsets = .zero,
+                       safeArea: Bool = false) {
+        let targetView = target.viewToConstraint
+        var constraints: [NSLayoutConstraint]
+        switch options {
+        case .all:
+            if #available(iOS 11.0, *) {
+                constraints = safeArea ? [
+                    self.leadingAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.leadingAnchor,
+                                                  constant: padding.left),
+                    self.trailingAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.trailingAnchor,
+                                                   constant: -padding.right)
+                ] : [self.leadingAnchor.constraint(equalTo: targetView.leadingAnchor,
+                                                   constant: padding.left),
+                     self.trailingAnchor.constraint(equalTo: targetView.trailingAnchor,
+                                                    constant: -padding.right)]
+            } else {
+                constraints = [self.leadingAnchor.constraint(equalTo: targetView.leadingAnchor,
+                                                             constant: padding.left),
+                               self.trailingAnchor.constraint(equalTo: targetView.trailingAnchor,
+                                                              constant: -padding.right)]
+            }
+            
+        case .left:
+            if #available(iOS 11.0, *) {
+                constraints = safeArea ? [
+                    self.leadingAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.leadingAnchor,
+                                                  constant: padding.left)
+                ] : [self.leadingAnchor.constraint(equalTo: targetView.leadingAnchor,
+                                                   constant: padding.left)]
+                
+            } else {
+                constraints = [self.leadingAnchor.constraint(equalTo: targetView.leadingAnchor, constant: padding.left)]
+            }
+        case .right:
+            if #available(iOS 11.0, *) {
+                constraints = safeArea ? [
+                    self.trailingAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.trailingAnchor,
+                                                   constant: -padding.right)
+                ] : [self.trailingAnchor.constraint(equalTo: targetView.trailingAnchor,
+                                                    constant: -padding.right)]
+            } else {
+                constraints = [
+                    self.trailingAnchor.constraint(equalTo: targetView.trailingAnchor,
+                                                   constant: -padding.right)
+                ]
+            }
+        }
+        NSLayoutConstraint.activate(constraints)
+    }
+    
+    @available(*, deprecated, message: "use mirrorHConstraints() instead.")
     /// Function that given a source model view copies all, or some of the horizontal constraints
     /// - Parameters:
     ///   - targetView: The view from where we copy the constraints
@@ -466,6 +527,70 @@ public extension UIView {
         }
         NSLayoutConstraint.activate(constraints)
     }
+    
+    /// Function that given a source model view copies all, or some of the horizontal constraints
+    /// - Parameters:
+    ///   - targetView: The view from where we copy the constraints
+    ///   - options: The possible options to choose from when copying the constraints.
+    ///   - padding: The amount of spacing to apply from the bvase constraints (only the horizontal amount works).
+    func mirrorVConstraints(from target: AnyArrangeable,
+                       options: VerticalOptions = .all,
+                       padding: UIEdgeInsets = .zero,
+                       safeArea: Bool = false) {
+        let targetView = target.viewToConstraint
+        var constraints: [NSLayoutConstraint]
+        switch options {
+        case .all:
+            if #available(iOS 11.0, *) {
+                constraints = safeArea ? [
+                    self.topAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.topAnchor,
+                                              constant: padding.top),
+                    self.bottomAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.bottomAnchor,
+                    constant: -padding.bottom)
+                    ] : [self.topAnchor.constraint(equalTo: targetView.topAnchor,
+                                                   constant: padding.top),
+                         self.bottomAnchor.constraint(equalTo: targetView.bottomAnchor,
+                         constant: -padding.bottom)]
+            } else {
+                constraints = [
+                    self.topAnchor.constraint(equalTo: targetView.topAnchor,
+                                              constant: padding.top),
+                    self.bottomAnchor.constraint(equalTo: targetView.bottomAnchor,
+                                                 constant: -padding.bottom)
+                ]
+            }
+            
+        case .top:
+            if #available(iOS 11.0, *) {
+            constraints = safeArea ? [
+                self.topAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.topAnchor,
+                                          constant: padding.top)
+                ] : [self.topAnchor.constraint(equalTo: targetView.topAnchor,
+                                               constant: padding.top)]
+            } else {
+                constraints = [
+                    self.topAnchor.constraint(equalTo: targetView.topAnchor,
+                                              constant: padding.top)
+                ]
+            }
+        case .bottom:
+            if #available(iOS 11.0, *) {
+                constraints = safeArea ? [
+                    self.bottomAnchor.constraint(equalTo: targetView.safeAreaLayoutGuide.bottomAnchor,
+                                                 constant: -padding.bottom)
+                    ] : [self.bottomAnchor.constraint(equalTo: targetView.bottomAnchor,
+                                                      constant: -padding.bottom)]
+            } else {
+                constraints = [
+                    self.bottomAnchor.constraint(equalTo: targetView.bottomAnchor,
+                                                 constant: -padding.bottom)
+                ]
+            }
+        }
+        NSLayoutConstraint.activate(constraints)
+    }
+    
+    @available(*, deprecated, message: "use mirrorVConstraints() instead.")
     /// Function that given a source model view copies all, or some of the horizontal constraints
     /// - Parameters:
     ///   - targetView: The view from where we copy the constraints
@@ -533,12 +658,13 @@ public extension UIView {
     /// - Parameters:
     ///   - view: the target view
     ///   - offset: the offset from the target center point
-    func copyCenter(from view: UIView,
+    func copyCenter(from view: AnyArrangeable,
                     offset: CGPoint = .zero) {
+        let targetView = view.viewToConstraint
         let constraints: [NSLayoutConstraint] = [
-            centerXAnchor.constraint(equalTo: view.centerXAnchor,
+            centerXAnchor.constraint(equalTo: targetView.centerXAnchor,
                                      constant: offset.x),
-            centerYAnchor.constraint(equalTo: view.centerYAnchor,
+            centerYAnchor.constraint(equalTo: targetView.centerYAnchor,
                                      constant: offset.y)
         ]
         NSLayoutConstraint.activate(constraints)
