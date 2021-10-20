@@ -11,25 +11,28 @@ import Foundation
 import UIKit
 
 public extension UIView {
+    
     ///Describes the set of vertical positions in which a view can be anchored
     enum VerticalAlignment {
         case top
         case bottom
         case center
     }
+    
     ///Describes the set of horizontal positions in which a view can be anchored
     enum HorizontalAlignment {
         case left
         case right
         case center
     }
+    
     /// Utility method that fills the superview with this view.
     /// - Parameter padding: If needed this paraeter can apply some spacing between the parent view and the view itself.
     /// - Parameter referredToSafeArea: Used to create a reference to specify if the constraint applied to a view must be applied referring to the safe area inset.
     func fillSuperview(padding: UIEdgeInsets = .zero,
                        referredToSafeArea: Bool = false) {
         self.translatesAutoresizingMaskIntoConstraints = false
-        guard let superView = superview else {return}
+        guard let superView = superview else { return }
         var constraints: [NSLayoutConstraint] = []
         if #available(iOS 11.0, *) {
             constraints = referredToSafeArea ? [
@@ -65,6 +68,7 @@ public extension UIView {
         }
         NSLayoutConstraint.activate(constraints)
     }
+    
     /// Utility method that fills the superview with this view, allgining the child view using layoutMargins guide.
     /// - Parameter padding: If needed this paraeter can apply some additional spacing between the parent view and the view itself.
     func fillSuperViewWithLayoutGuide(plusPadding: UIEdgeInsets = .zero) {
@@ -85,17 +89,21 @@ public extension UIView {
         
         NSLayoutConstraint.activate(constraints)
     }
+    
     /// Describes the set of dimensions of a 2D object.
     enum Dimension {
         case width
         case height
     }
+    
     /// Specifies one dimension for a view and the ratio that this dimension
     /// needs to have compared to the target view.
     /// - Parameters:
     ///   - dimension: the dimension for the view that needs to be caluclated (Width or Height)
     ///   - multiplier: The actual proportion needed for the dimension.
     ///   - target: The target view that we want to caluclate the proportion of.
+    ///   - referredToSafeArea: whether the view should be placed reflecting the safe area insets or not.
+    ///   - alignment: The horizontal alignment that has to be used.
     func specify(dimension: Dimension,
                  multiplier: CGFloat,
                  target: AnyArrangeable,
@@ -181,6 +189,7 @@ public extension UIView {
             NSLayoutConstraint.activate([self.widthAnchor.constraint(equalToConstant: safeWidth)])
         }
     }
+    
     /// Funciton that pins a specified view to a specific point of the superview.
     /// - Parameters:
     ///   - position: The vertical position in which the child view is going to be placed
@@ -197,11 +206,7 @@ public extension UIView {
         guard let superView = superview else {return}
 
         var constraints: [NSLayoutConstraint] = []
-//        constraints.append(contentsOf:
-//            applyHAlignment(superView: superView,
-//                            alignment: alignment,
-//                            padding: padding,
-//                            size: size))
+        
         switch position {
         case .top:
             if #available(iOS 11.0, *) {
@@ -226,6 +231,7 @@ public extension UIView {
         }
         NSLayoutConstraint.activate(constraints)
     }
+    
     /// Mehod that handles the placement of the child view in the horizontal axis.
     /// - Parameters:
     ///   - superView: The superview of the child.
@@ -339,7 +345,10 @@ public extension UIView {
     }
 }
 
+// MARK: Mutual position placement
+
 public extension UIView {
+    
     /// Describes the mutual position between two UIViews
     enum MutualPosition {
         /// The current view needs to be on top of the target view.
@@ -353,6 +362,7 @@ public extension UIView {
         /// Places the view at the center of the target view
         case center
     }
+    
     /// Places a view in relation of a mutual position with another view.
     /// - Parameters:
     ///   - mutualPosition: the relative position of the view.
@@ -393,7 +403,10 @@ public extension UIView {
     }
 }
 
+// MARK: Constraint mirroring
+
 public extension UIView {
+    
     /// Describes the possible options to choose from when copying another view's horizontal constraints.
     enum HorizontalOptions {
         /// Copy just the leading constraint.
@@ -534,9 +547,9 @@ public extension UIView {
     ///   - options: The possible options to choose from when copying the constraints.
     ///   - padding: The amount of spacing to apply from the bvase constraints (only the horizontal amount works).
     func mirrorVConstraints(from target: AnyArrangeable,
-                       options: VerticalOptions = .all,
-                       padding: UIEdgeInsets = .zero,
-                       safeArea: Bool = false) {
+                            options: VerticalOptions = .all,
+                            padding: UIEdgeInsets = .zero,
+                            safeArea: Bool = false) {
         let targetView = target.viewToConstraint
         var constraints: [NSLayoutConstraint]
         switch options {
@@ -675,6 +688,14 @@ public extension UIView {
     
     func deactivateAllConstraints() {
         NSLayoutConstraint.deactivate(self.constraints)
+    }
+    
+    /// Utility method that helps to remove s subview inside a UIStackView.
+    func deatach() {
+        // Deactive all constraints at once
+        NSLayoutConstraint.deactivate(constraints)
+        // Remove the views from self
+        removeFromSuperview()
     }
     
 }

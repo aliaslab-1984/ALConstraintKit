@@ -10,6 +10,7 @@ import Foundation
 #if canImport(UIKit)
 import UIKit
 public extension UIView {
+    
     func shake() {
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = 0.07
@@ -23,7 +24,9 @@ public extension UIView {
                        forKey: "position")
     }
     
-    func layerScaleAnimation(duration: CFTimeInterval, fromValue: CGFloat = 1.0, toValue: CGFloat) {
+    func layerScaleAnimation(duration: CFTimeInterval,
+                             fromValue: CGFloat = 1.0,
+                             toValue: CGFloat) {
         let timing = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
         let scaleAnimation: CABasicAnimation = CABasicAnimation(keyPath: "transform.scale")
 

@@ -10,6 +10,7 @@ import Foundation
 #if canImport(UIKit)
 import UIKit
 public extension UIView {
+    
     /// Adds a series of suibviews to this view. (Note: The order in which the subviews are added will be used for the z axis)
     /// - Parameter subviews: The list of subviews that will be added.
     func addSubviews(_ subviews: [UIView]) {
@@ -28,24 +29,20 @@ public extension UIView {
                      backgroundColor: UIColor = .clear) {
         self.init(frame: .zero)
         self.translatesAutoresizingMaskIntoConstraints = false
+        self.backgroundColor = backgroundColor
         guard cornerRadius != 0 else {return}
         
-        roundCorners(cornerRadius: cornerRadius)
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = cornerRadius
+        if #available(iOS 13.0, *) {
+            self.layer.cornerCurve = .continuous
+        }
     }
+    
     convenience init(tamic: Bool = false, backgroundColor: UIColor = .clear) {
         self.init(frame: .zero)
         self.translatesAutoresizingMaskIntoConstraints = tamic
         self.backgroundColor = backgroundColor
-    }
-}
-
-private extension UIView {
-    func roundCorners(cornerRadius: CGFloat) {
-        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: [.allCorners], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
-        let maskLayer = CAShapeLayer()
-        maskLayer.frame = self.bounds
-        maskLayer.path = path.cgPath
-        self.layer.mask = maskLayer
     }
 }
 

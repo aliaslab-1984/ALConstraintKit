@@ -25,10 +25,8 @@ public extension UIStackView {
     /// Utility method that helps to remove s subview inside a UIStackView.
     func safelyRemoveArrangedSubview(view: UIView) {
         self.removeArrangedSubview(view)
-        // Deactive all constraints at once
-        NSLayoutConstraint.deactivate(view.constraints)
-        // Remove the views from self
-        view.removeFromSuperview()
+        // Deactive all constraints at once and removes from superview
+        view.deatach()
     }
 }
 #endif

@@ -11,6 +11,7 @@ import Foundation
 import UIKit
 /// Helper class that handles the creation of an Horizontal or Vertical Stack of Views
 public class ALConstraintMaker {
+    
     ///Shorter name for UIStackView
     public typealias Stack = UIStackView
     /// Skips the verbose setup for a UIStackView
@@ -21,14 +22,14 @@ public class ALConstraintMaker {
     ///   - alignment: The alignment of each object inside the stack.
     ///   - distribution: The way in which each item in the stack expands.
     public static func makeStack(axis: NSLayoutConstraint.Axis = .vertical,
-                                 views: [UIView],
+                                 views: [UIView] = [] ,
                                  alignment: Stack.Alignment = .center,
                                  distribution: Stack.Distribution = .equalSpacing) -> Stack {
         let container: Stack = UIStackView(arrangedSubviews: views)
         container.translatesAutoresizingMaskIntoConstraints = false
         container.axis = axis
         container.distribution = distribution
-        container.alignment = .center
+        container.alignment = alignment
         return container
     }
     /// Skips the verbose setup for a UIStackView. Alternative constructor that don't need the list of views to stack.
@@ -39,12 +40,17 @@ public class ALConstraintMaker {
     public static func makeStack(axis: NSLayoutConstraint.Axis = .vertical,
                                  alignment: Stack.Alignment = .center,
                                  distribution: Stack.Distribution = .equalSpacing) -> Stack {
-        let container: Stack = UIStackView(frame: .zero)
-        container.translatesAutoresizingMaskIntoConstraints = false
-        container.axis = axis
-        container.distribution = distribution
-        container.alignment = .center
-        return container
+        return makeStack(axis: axis, views: [], alignment: alignment, distribution: distribution)
+    }
+    
+    public static func hStack(alignment: Stack.Alignment = .center,
+                              distribution: Stack.Distribution = .equalSpacing) -> Stack {
+        return makeStack(axis: .horizontal, alignment: alignment, distribution: distribution)
+    }
+    
+    public static func vStack(alignment: Stack.Alignment = .center,
+                              distribution: Stack.Distribution = .equalSpacing) -> Stack {
+        return makeStack(axis: .vertical, alignment: alignment, distribution: distribution)
     }
 }
 

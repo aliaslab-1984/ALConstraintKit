@@ -23,7 +23,7 @@ public extension NSLayoutXAxisAnchor {
     ///Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be less than or equal to the target view's anchor.
     @discardableResult
     func anchor(lessThanOrEqualto matchingAnchor: NSLayoutXAxisAnchor,
-                        constant: CGFloat = 0) -> NSLayoutConstraint {
+                constant: CGFloat = 0) -> NSLayoutConstraint {
         let constraint: NSLayoutConstraint
         constraint = self.constraint(lessThanOrEqualTo: matchingAnchor,
                                      constant: constant)
@@ -32,7 +32,8 @@ public extension NSLayoutXAxisAnchor {
     }
     ///Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be greater than or equal to the target view's anchor.
     @discardableResult
-    func anchor(greaterThanOrEqualTo matchingAnchor: NSLayoutXAxisAnchor, constant: CGFloat = 0.0) -> NSLayoutConstraint {
+    func anchor(greaterThanOrEqualTo matchingAnchor: NSLayoutXAxisAnchor,
+                constant: CGFloat = 0.0) -> NSLayoutConstraint {
         let constraint: NSLayoutConstraint
         constraint = self.constraint(greaterThanOrEqualTo: matchingAnchor,
                                      constant: constant)
@@ -43,7 +44,8 @@ public extension NSLayoutXAxisAnchor {
 
 public extension NSLayoutYAxisAnchor {
     @discardableResult
-    func anchor(to match: NSLayoutYAxisAnchor, constant: CGFloat = 0.0) -> NSLayoutConstraint {
+    func anchor(to match: NSLayoutYAxisAnchor,
+                constant: CGFloat = 0.0) -> NSLayoutConstraint {
         let constraint: NSLayoutConstraint
 
         constraint = self.constraint(equalTo: match, constant: constant)
@@ -53,7 +55,7 @@ public extension NSLayoutYAxisAnchor {
     ///Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be less than or equal to the target view's anchor.
     @discardableResult
     func anchor(lessThanOrEqualto matchingAnchor: NSLayoutYAxisAnchor,
-                        constant: CGFloat = 0) -> NSLayoutConstraint {
+                constant: CGFloat = 0) -> NSLayoutConstraint {
         let constraint: NSLayoutConstraint
         constraint = self.constraint(lessThanOrEqualTo: matchingAnchor,
                                      constant: constant)
@@ -62,7 +64,8 @@ public extension NSLayoutYAxisAnchor {
     }
     ///Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be greater than or equal to the target view's anchor.
     @discardableResult
-    func anchor(greaterThanOrEqualTo matchingAnchor: NSLayoutYAxisAnchor, constant: CGFloat = 0.0) -> NSLayoutConstraint {
+    func anchor(greaterThanOrEqualTo matchingAnchor: NSLayoutYAxisAnchor,
+                constant: CGFloat = 0.0) -> NSLayoutConstraint {
         let constraint: NSLayoutConstraint
         constraint = self.constraint(greaterThanOrEqualTo: matchingAnchor, constant: constant)
         NSLayoutConstraint.activate([constraint])
@@ -75,7 +78,7 @@ public extension NSLayoutDimension {
     /// Applies and activates a specific constant value to this dimension.
     /// - Parameter constant: The constant value that needs to be applied.
     @discardableResult
-    func apply(constant: CGFloat) -> NSLayoutConstraint{
+    func apply(constant: CGFloat) -> NSLayoutConstraint {
         let constraint = self.constraint(equalToConstant: constant)
         NSLayoutConstraint.activate([constraint])
         return constraint
@@ -85,7 +88,8 @@ public extension NSLayoutDimension {
     /// - Parameter dimension: The constant value that needs to be applied.
     /// - Parameter multiplier: The ratio that needs to be applied to the reference dimension. (Default is 1)
     @discardableResult
-    func equal(to dimension: NSLayoutDimension, multiplier: CGFloat = 1) -> NSLayoutConstraint{
+    func equal(to dimension: NSLayoutDimension,
+               multiplier: CGFloat = 1) -> NSLayoutConstraint {
         let constraint = self.constraint(equalTo: dimension, multiplier: multiplier)
         NSLayoutConstraint.activate([constraint])
         return constraint
