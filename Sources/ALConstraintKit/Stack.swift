@@ -12,7 +12,7 @@ import UIKit
 /// Helper class that handles the creation of an Horizontal or Vertical Stack of Views
 public class ALConstraintMaker {
     
-    ///Shorter name for UIStackView
+    /// Shorter name for UIStackView
     public typealias Stack = UIStackView
     /// Skips the verbose setup for a UIStackView
     /// - Parameters:

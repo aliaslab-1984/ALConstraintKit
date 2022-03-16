@@ -20,7 +20,7 @@ public extension NSLayoutXAxisAnchor {
         NSLayoutConstraint.activate([constraint])
         return constraint
     }
-    ///Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be less than or equal to the target view's anchor.
+    /// Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be less than or equal to the target view's anchor.
     @discardableResult
     func anchor(lessThanOrEqualto matchingAnchor: NSLayoutXAxisAnchor,
                 constant: CGFloat = 0) -> NSLayoutConstraint {
@@ -30,7 +30,7 @@ public extension NSLayoutXAxisAnchor {
         NSLayoutConstraint.activate([constraint])
         return constraint
     }
-    ///Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be greater than or equal to the target view's anchor.
+    /// Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be greater than or equal to the target view's anchor.
     @discardableResult
     func anchor(greaterThanOrEqualTo matchingAnchor: NSLayoutXAxisAnchor,
                 constant: CGFloat = 0.0) -> NSLayoutConstraint {
@@ -52,7 +52,7 @@ public extension NSLayoutYAxisAnchor {
         NSLayoutConstraint.activate([constraint])
         return constraint
     }
-    ///Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be less than or equal to the target view's anchor.
+    /// Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be less than or equal to the target view's anchor.
     @discardableResult
     func anchor(lessThanOrEqualto matchingAnchor: NSLayoutYAxisAnchor,
                 constant: CGFloat = 0) -> NSLayoutConstraint {
@@ -62,7 +62,7 @@ public extension NSLayoutYAxisAnchor {
         NSLayoutConstraint.activate([constraint])
         return constraint
     }
-    ///Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be greater than or equal to the target view's anchor.
+    /// Uses the same syntax used by NSLayoutConstraint API, in particular this method stretches the view's anchor to be greater than or equal to the target view's anchor.
     @discardableResult
     func anchor(greaterThanOrEqualTo matchingAnchor: NSLayoutYAxisAnchor,
                 constant: CGFloat = 0.0) -> NSLayoutConstraint {
