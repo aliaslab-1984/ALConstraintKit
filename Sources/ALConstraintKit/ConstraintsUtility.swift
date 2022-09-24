@@ -485,10 +485,11 @@ public extension UIView {
     ///   - target: The view from where we copy the constraints
     ///   - options: The possible options to choose from when copying the constraints.
     ///   - padding: The amount of spacing to apply from the bvase constraints (only the horizontal amount works).
+    @discardableResult
     func mirrorHConstraints(from target: AnyArrangeable,
                        options: HorizontalOptions = .all,
                        padding: UIEdgeInsets = .zero,
-                       safeArea: Bool = false) {
+                       safeArea: Bool = false) -> [NSLayoutConstraint] {
         let targetView = target.viewToConstraint
         var constraints: [NSLayoutConstraint]
         switch options {
@@ -536,6 +537,7 @@ public extension UIView {
             }
         }
         constraints.activate()
+        return constraints
     }
     
     @available(*, deprecated, message: "use mirrorHConstraints() instead.")
@@ -601,10 +603,11 @@ public extension UIView {
     ///   - target: The view from where we copy the constraints
     ///   - options: The possible options to choose from when copying the constraints.
     ///   - padding: The amount of spacing to apply from the bvase constraints (only the horizontal amount works).
+    @discardableResult
     func mirrorVConstraints(from target: AnyArrangeable,
                             options: VerticalOptions = .all,
                             padding: UIEdgeInsets = .zero,
-                            safeArea: Bool = false) {
+                            safeArea: Bool = false) -> [NSLayoutConstraint] {
         let targetView = target.viewToConstraint
         var constraints: [NSLayoutConstraint]
         switch options {
@@ -656,6 +659,7 @@ public extension UIView {
             }
         }
         constraints.activate()
+        return constraints
     }
     
     /// Function that given a source model view copies all, or some of the vertical constraints
@@ -663,9 +667,10 @@ public extension UIView {
     ///   - targetView: The view from where we copy the constraints
     ///   - options: The possible options to choose from when copying the constraints.
     ///   - padding: The amount of spacing to apply from the bvase constraints (only the vertical amount works).
+    @discardableResult
     func mirrorVLayoutGuide(from target: AnyArrangeable,
                             options: VerticalOptions = .all,
-                            padding: UIEdgeInsets = .zero) {
+                            padding: UIEdgeInsets = .zero) -> [NSLayoutConstraint] {
         let targetView = target.viewToConstraint
         var constraints: [NSLayoutConstraint]
         switch options {
@@ -684,6 +689,7 @@ public extension UIView {
                                                         constant: -padding.bottom)]
         }
         constraints.activate()
+        return constraints
     }
     
     /// Function that given a source model view copies all, or some of the vertical constraints relative to the readable guide.
